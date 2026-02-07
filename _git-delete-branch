@@ -1,0 +1,24 @@
+#compdef git-delete-branch
+# Zsh completion for git-delete-branch:
+# git-delete-branch <tab>
+#
+# Github: https://github.com/jonasbn/zsh_completion_git-extras
+# Copyright Jonas B. Nielsen (jonasbn) 2026
+# MIT License
+
+# Parse branch list from git branch output
+# Removes asterisk markers and leading/trailing whitespace
+_git_delete_branch_parse_branches() {
+  git branch 2>/dev/null | sed -e 's/\*//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
+_git-delete-branch() {
+    local -a branches
+    
+    # Get branch list from parser function
+    branches=(${(f)"$(_git_delete_branch_parse_branches)"})
+    
+    _describe 'available branches' branches
+}
+
+_git-delete-branch "$@"
